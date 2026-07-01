@@ -1,0 +1,110 @@
+<!--
+1. 32_README.md 파일 형식 정리
+2. 32_README.md 파일 클로드 코드 설치 정리
+3. 34_index.html 미니프로젝트 : 지금까지 배운 태그 이용 웹사이트구축 후 깃허브 업데이트
+            -->
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>임소정 소개</title>
+    
+</head>
+
+<body>
+    <header class="site-header">
+        <nav>
+            <h1>HI hi!</h1>
+             <a href="https://sojsoj.tistory.com/">BLOG</a>
+        </nav>
+        
+    </header>
+
+    <main>
+
+        <section class="section" id="hi">
+            <h2>안녕하세요</h2>
+            <img src="../02_html/image8.jpg" width="200">
+            <h3>임소정입니다.<br>비전공자이지만 열심히 해보겠습니다!</h3>
+        </section>
+        <hr>
+
+        <section class="section" id="about">
+            <h2>About Me</h2>
+            <ul>
+                <li>전공 : 패션 . 디자인</li>
+                <li>코딩 수준 : 초보자</li>
+                <li>다루어 본 툴</li>
+                <ul>
+                    <li>AdobeIllustration</li>
+                    <li>Adobe Photoshop</li>
+                    <li>p5.js</li>
+                </ul>
+                
+
+            </ul>
+            <h4>좋아하는 음악</h4>
+            <iframe width="415" height="267" src="https://www.youtube.com/embed/lo7sGuCm884?list=RDlo7sGuCm884" title="Ryuichi Sakamoto- Aqua 1H (Monster movie ver.)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <br>
+            <br>
+                <details>
+                    <summary>좋아하는 음식 ?</summary>
+                    <p>초밥</p>
+                </details>
+        </section>
+        <hr>
+
+        <section class="section" id="study">
+            <h3>학습 기록</h3>
+            <table border="2">
+                <thead><th></th><td>학습 상황</td></th></thead>
+                <tbody>
+                    <tr><td>1회</td><td>VS , HTML</td></tr>
+                    <tr><td>2회</td><td>HTML</td></tr>
+                    <tr><td>3회</td><td>HTML, claude</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section" id="memo">
+            <form>
+                <label>메모<br><input type="text" placeholder="과제 ..."></label>
+            </form>
+        </section>
+
+        <section class="section" id="contact">
+
+            <hr>
+            <h2>For me</h2>
+            <form action="/send" method="post">
+                <label for="name">이름<br></label><input type="text" id="name" name="name" required>
+                <br>  
+                <label for="msg">하고 싶은 말</label><br><textarea id="msg" name="msg" rows="3"></textarea>
+                <br>
+                <button type="submit" class="btn">보내기</button>
+                <br>
+                <br>
+                <a href="mailto:haaw1915@naver.com">메일</a>
+            
+            </form>
+        </section>
+
+    </main>
+
+    <hr>
+
+    <footer class="b_footer">
+        <small><em>2025 07 01 HTML 과제</em></small>
+        <br>
+        <br>
+        
+         <a href="#top">맨 위로</a>
+
+    </footer>
+
+</body>
+</html>
