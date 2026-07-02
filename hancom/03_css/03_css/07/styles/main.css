@@ -1,0 +1,20 @@
+/* 방문 전 */
+a:link {
+    color:  rgb(11, 67, 221);
+    }
+
+/* 방문 후 */
+a:visited {
+    color: brown;
+}
+
+/* 마우스 올림 */
+a:hover {
+    color: aquamarine;
+}
+
+/* 누르는 중 */
+a:active {
+    color: yellowgreen;
+}
+/* lvha 순서  중요 ! — 순서를 맞춰야 정상 동작 */

@@ -1,0 +1,22 @@
+h1 {color: blueviolet;}
+ul {
+    background-color: rgb(240, 163, 163);
+    padding: 10px; /*안쪽 여백 - 글자와 테두리 사이 공간*/
+    border: 5px solid rgb(142, 142, 202); /*테두리 - 두께, 실선, 남색*/
+    list-style: none;
+    margin: 10px 50px; /*바깥쪽 여백*/
+    /*값1개 -상하 좌우 전부 같은 여백
+      값2개 - 상하 // 좌우 
+      갑4개 - 싱-> 우-> 하->좌
+      한방향씩 따로 지정도 가능
+      - margin-top : 
+        margin-right: 20px;
+        margin-bottom: 30px;
+        margin-left: 40px; */
+}
+.p { 
+    background-color: rgb(182, 182, 209);
+    padding: 10px;
+    border: 5px dotted beige;
+    margin: 10px 50px;
+}

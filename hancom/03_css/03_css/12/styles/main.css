@@ -1,0 +1,74 @@
+/*페이지를 일부로 길게 만들어 스크롤 생성*/
+
+body {
+    min-height: 1500px;
+}
+
+/*부모박스*/
+.parent {
+    position: relative;
+    border: 3px dashed red;
+    border-radius: 8px;
+    height: 120px;
+    background-color: rgba(255, 228, 196, 0.541);
+    margin: 10px 0;
+
+}
+
+/*relativ 원래 자기 기준으로 이동*/
+
+.ptag {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    color: blueviolet;
+    font-weight: bold;
+}
+
+.rel {
+    position: relative;
+    top: 30px;
+    left: 20px;
+    width: 150px;
+    padding: 8px;
+    background: rgb(113, 113, 177);
+    border-radius: 6px;
+    font-weight: bold;
+    color: azure;
+    
+}
+
+.abc {
+    position: absolute;
+    background: rgb(83, 41, 41);
+    color: beige;
+    padding: 10px;
+    bottom: 50px;
+    right: 16px;
+    border-radius: 6px;
+}
+
+.fixed {
+    position: fixed;
+    background-color: blueviolet;
+    color: bisque;
+    font-weight: bold;
+    border-radius: 16px;
+    bottom: 16px;
+    right: 16px;
+    padding: 10px;
+    z-index: 10;  
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+    margin: 10px 0;
+    padding: 8px;
+    background: rgb(162, 179, 137);
+    color: rgb(90, 71, 46);
+    font-weight: bold;
+    border-radius: 6px;
+
+
+}

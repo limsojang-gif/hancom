@@ -1,0 +1,42 @@
+body {
+    margin: 0;              /* 브라우저 기본 여백 제거 */
+    height: 100vh;          /* 화면 높이 전체 */
+    display: flex;          /* Flexbox 사용 */
+    justify-content: center;/* 가로 가운데 */
+    align-items: center;    /* 세로 가운데 */
+}
+
+.box {
+    border: 2px solid;
+    width: 200px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(95, 150, 78);
+    color: antiquewhite;
+    border-radius: 30px;
+    transition: transform 1s ease-in-out;
+}
+
+.box:hover {
+    transform: rotate(360deg) scale(2);
+}
+
+.box2 { 
+    border: 2px solid;
+    width: 200px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(245, 126, 181);
+    color: rgb(129, 230, 126);
+    border-radius: 30px;
+    transition: transform 1s ease-in-out;
+    
+}
+
+.box2:hover {
+    transform: rotate(-360deg) scale(2);
+}

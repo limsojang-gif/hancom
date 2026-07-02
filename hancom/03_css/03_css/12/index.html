@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포지션</title>
+    <link rel="stylesheet" href="styles/main.css">
+
+</head>
+<body>
+    <h1>position</h1>
+    <div class="parent">
+        <span class="ptag">부모 (relasive)</span>
+        <!--relasive 원래 자리에서 오른쪽 아래로 살짝 이동-->
+        <div class="rel">relasive</div>
+        <!--sbsolute 가장 가까운 포지션 부모 기준 오른쪽 위-->
+        <div class="abc">absolute</div>
+    </div>
+    <!--fixed 화면 오른쪽 아래 고정 스크롤해도 그대로-->
+    <div class="fixed">fixed</div>
+    <!--스크롤하다 top:0 지점에 닿으면 화면 상단에 붙음-->
+    <div class="sticky">sticky</div>
+    <p>일반 글은 원래 흐름대로 흐름</p>
+    <p>아래로 스크롤 하면 fixed 그대로, sticky 는 위에 붙는것을 볼 수 있다</p>
+    
+</body>
+</html>

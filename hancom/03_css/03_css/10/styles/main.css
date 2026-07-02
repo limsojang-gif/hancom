@@ -1,0 +1,34 @@
+@keyframes float {                          /* float: 움직임 "대본"(이름)을 미리 정의 */
+  0%, 100% { transform: translateY(0); }      /* 시작(0%)·끝(100%): 제자리 */
+  50%      { transform: translateY(-30px); }  /* 중간(50%): 위로 30px 올라감 (translateY 음수 = 위) */
+}
+
+
+
+.ball {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: blue;
+    animation: float 1.5s ease-in-out infinite;
+}
+
+@keyframes slide{
+
+    from{
+        transform:translateX(-200px);
+    }
+
+    to{
+        transform:translateX(0);
+    }
+
+}
+
+.cl {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: blue;
+    animation: slide 1.5s ease-in-out infinite;
+}
