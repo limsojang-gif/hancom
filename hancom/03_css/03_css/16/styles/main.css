@@ -1,0 +1,19 @@
+.card {
+    width: 150px; height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgb(118, 130, 238);
+    color: rgba(27, 27, 241, 0.644);
+    font-weight: 400;
+    box-shadow: 0 2px 18px rgb(43, 70, 226);
+    border-radius: 10px;
+    opacity: 0.85; /*투명도 85% */
+    transition: all 0.3 ease-in-out;
+}
+
+.card:hover {
+    opacity: 1;
+    transform: translateY(-5px);
+    box-shadow: -1 18px 18px rgb(43, 70, 226);
+    color: rgba(211, 253, 253, 0.486);
+    font-weight: 500;
+}

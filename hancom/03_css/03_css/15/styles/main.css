@@ -1,0 +1,33 @@
+/* :root  문서 정체 뿌리 -> 어디서든 꺼내 쓸 수 있음 (안에 변수 정리 */
+
+:root {
+    --main-color: hsl(330, 94%, 55%);
+    --gap : 12px;
+}
+
+.body {
+    
+}
+
+.row {
+    gap: var(--gap);
+    display: flex;
+}
+/*변수 꺼내 쓰기*/
+.btn {
+    padding: 8px 18px;
+    border: solid rgba(206, 169, 188, 0.596);
+    border-radius: 8px;
+    background: var(--main-color);
+    color: rgb(240, 226, 232);
+}
+
+.btn2 {
+    padding: 8px 18px;
+    border: dotted rgba(152, 69, 230, 0.493);
+    border-radius: 50px;
+    background: rgb(190, 190, 235);
+    color: rgb(47, 37, 192);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bolder;
+}

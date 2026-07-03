@@ -1,0 +1,632 @@
+/* ==========================================================================
+   FRONTEND BASIC — TYPOGRAPHIC MIND MAP
+   Tone: Newsprint / Off-Black / Green Accent
+   ========================================================================== */
+
+/* ==========================================================================
+   1. RESET & BASE
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, "Malgun Gothic", "맑은 고딕", sans-serif;
+
+  /* 신문지 느낌: 따뜻한 오프화이트 + 미세 수평 라인 텍스처 */
+  background-color: #ece9e0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(130, 120, 100, 0.045) 0px,
+      rgba(130, 120, 100, 0.045) 1px,
+      transparent 1px,
+      transparent 5px
+    );
+
+  color: #1c1c1c; /* 완전한 블랙이 아닌, 회색기 살짝 탄 블랙 */
+  line-height: 1.65;
+  padding: 0 40px 120px;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* 전체 페이지에 종이 그레인 오버레이 */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23grain)' opacity='0.12'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mix-blend-mode: multiply;
+}
+
+/* 키워드 초록 강조 */
+.key {
+  color: #2a6e3f;
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   2. HERO SECTION — TYPOGRAPHIC TITLE BLOCK
+   ========================================================================== */
+.hero {
+  max-width: 900px;
+  margin: 0 auto 80px auto;
+  padding: 80px 0 48px;
+  border-bottom: 2px solid #1c1c1c;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 히어로 장식 라인 — 로드 시 좌→우로 그려짐 */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: #1c1c1c;
+  animation: lineGrow 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
+}
+
+@keyframes lineGrow {
+  to { width: 100%; }
+}
+
+/* 히어로 서브레이블 */
+.hero-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #7a7670;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+
+/* 히어로 메인 타이틀 — 키프레임 애니메이션 */
+.hero h1 {
+  font-size: clamp(3.8rem, 13vw, 9.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+
+  /* 블러 + 슬라이드업 등장 */
+  opacity: 0;
+  animation: heroReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+@keyframes heroReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(36px) skewY(2deg);
+    filter: blur(10px);
+    letter-spacing: 0.06em;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0);
+    filter: blur(0);
+    letter-spacing: -0.045em;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   3. MIND MAP CONTAINER — 나무 줄기
+   ========================================================================== */
+.mindmap-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* 메인 세로 줄기 — 로드 시 아래로 자라남 */
+.mindmap-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15px;
+  width: 1.5px;
+  height: 100%;
+  background-color: #1c1c1c;
+  z-index: 1;
+  transform-origin: top;
+  animation: trunkGrow 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
+}
+
+@keyframes trunkGrow {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+
+.branch {
+  position: relative;
+  margin-bottom: 28px;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   4. BRANCH SUMMARY — 노드 타이틀
+   ========================================================================== */
+summary.branch-title {
+  list-style: none;
+  cursor: pointer;
+  font-size: 1.55rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  padding: 14px 15px 14px 45px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  transition: color 0.3s ease, transform 0.25s ease;
+  user-select: none;
+}
+
+summary.branch-title::-webkit-details-marker { display: none; }
+summary.branch-title::marker { display: none; }
+
+/* 동그란 노드 */
+summary.branch-title::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 11px;
+  height: 11px;
+  background-color: #ece9e0;
+  border: 2px solid #1c1c1c;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, scale 0.3s ease;
+  z-index: 3;
+}
+
+summary.branch-title:hover {
+  color: #555;
+  transform: translateX(5px);
+}
+
+summary.branch-title:hover::before {
+  scale: 1.25;
+}
+
+.branch[open] summary.branch-title::before {
+  background-color: #2a6e3f;
+  border-color: #2a6e3f;
+}
+
+.branch[open] summary.branch-title {
+  color: #1c1c1c;
+}
+
+/* ==========================================================================
+   5. BRANCH CONTENT — 펼침 영역
+   ========================================================================== */
+.branch-content {
+  padding: 20px 0 44px 75px;
+  position: relative;
+  opacity: 0;
+  transform: translateY(-10px);
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.6s ease;
+}
+
+.branch[open] .branch-content {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 3500px;
+}
+
+/* 'ㄴ'자 가로 연결선 */
+.branch-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15px;
+  width: 40px;
+  height: 35px;
+  border-left: 1.5px solid #b8b4aa;
+  border-bottom: 1.5px solid #b8b4aa;
+  border-bottom-left-radius: 4px;
+}
+
+/* ==========================================================================
+   6. 본문 타이포그래피
+   ========================================================================== */
+.branch-content h3 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #1c1c1c;
+  margin-top: 22px;
+  margin-bottom: 8px;
+  padding-top: 6px;
+  border-top: 1px solid #d0ccc4;
+}
+
+.branch-content h3:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
+.branch-content p {
+  font-size: 0.97rem;
+  color: #3a3835;
+  max-width: 680px;
+  margin-bottom: 14px;
+  line-height: 1.75;
+}
+
+.branch-content li {
+  font-size: 0.97rem;
+  padding: 10px 0;
+  border-bottom: 1px dashed #ccc8be;
+  max-width: 680px;
+  color: #3a3835;
+  line-height: 1.65;
+}
+
+/* ==========================================================================
+   7. SUB-BRANCH — 하위 노드
+   ========================================================================== */
+.sub-branch {
+  margin-bottom: 10px;
+}
+
+.sub-branch-title {
+  list-style: none;
+  cursor: pointer;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #5a5752;
+  padding: 9px 0;
+  transition: color 0.25s ease;
+  position: relative;
+  letter-spacing: -0.01em;
+}
+
+.sub-branch-title::-webkit-details-marker { display: none; }
+.sub-branch-title::marker { display: none; }
+
+.sub-branch-title::before {
+  content: '+';
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: 300;
+  font-size: 1.15rem;
+  color: #1c1c1c;
+  transition: color 0.2s;
+}
+
+.sub-branch[open] .sub-branch-title::before {
+  content: '−';
+  color: #2a6e3f;
+}
+
+.sub-branch[open] .sub-branch-title {
+  color: #1c1c1c;
+}
+
+.sub-branch-title:hover {
+  color: #1c1c1c;
+}
+
+/* ==========================================================================
+   8. CARD STYLE — 콘텐츠 박스
+   ========================================================================== */
+.sub-branch-content.card-style {
+  background-color: #f5f2ea;
+  border: 1px solid #ccc8be;
+  border-radius: 4px;
+  padding: 22px 24px;
+  margin-top: 8px;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+  color: #2e2c2a;
+  animation: fadeSlideDown 0.3s ease forwards;
+  transform-origin: top;
+  position: relative;
+}
+
+/* 카드 좌측 장식 라인 */
+.sub-branch-content.card-style::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 0;
+  width: 3px;
+  background: #d0ccc4;
+  border-radius: 0 2px 2px 0;
+  transition: background 0.3s;
+}
+
+.sub-branch[open] .sub-branch-content.card-style::before {
+  background: #2a6e3f;
+}
+
+.card-style ul {
+  list-style-type: none;
+  margin-top: 12px;
+  padding-left: 0;
+}
+
+.card-style li {
+  border-bottom: 1px dashed #ccc8be;
+  padding: 10px 0;
+  margin-bottom: 0;
+  max-width: 100%;
+}
+
+.card-style li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.card-style p + p {
+  margin-top: 8px;
+}
+
+/* 팁 박스 */
+.tip-box {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: #eaf2ed;
+  border-left: 3px solid #2a6e3f;
+  border-radius: 2px;
+  font-size: 0.88rem;
+  color: #1e4d2b;
+  line-height: 1.65;
+}
+
+.tip-box strong {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  color: #2a6e3f;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   9. CODE HIGHLIGHT
+   ========================================================================== */
+.card-style code {
+  background-color: #e4e0d6;
+  color: #2a6e3f;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88em;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   10. 아카이브 이미지
+   ========================================================================== */
+.branch-content img {
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  display: block;
+  margin: 20px 0;
+  filter: grayscale(100%) contrast(1.05);
+  border: 1px solid #1c1c1c;
+  transition: filter 0.6s ease;
+}
+
+.branch-content img:hover {
+  filter: grayscale(0%) contrast(1);
+}
+
+/* ==========================================================================
+   11. EXTERNAL LINK — 슬라이드 컬러 와이프 인터랙션
+   ========================================================================== */
+.link-box {
+  margin-top: 20px;
+}
+
+.external-link {
+  display: inline-block;
+  position: relative;
+  color: #1c1c1c;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  border: 1.5px solid #1c1c1c;
+  overflow: hidden;
+  z-index: 0;
+  transition: color 0.4s ease;
+}
+
+/* 슬라이드 배경 — 기본: 오른쪽 바깥에 대기 */
+.external-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: #2a6e3f;
+  z-index: -1;
+  transition: left 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.external-link:hover {
+  color: #ffffff;
+  border-color: #2a6e3f;
+}
+
+.external-link:hover::before {
+  left: 0;
+}
+
+/* 링크 오른쪽 화살표 애니메이션 */
+.external-link .link-arrow {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.external-link:hover .link-arrow {
+  transform: translate(3px, -3px);
+}
+
+/* ==========================================================================
+   12. QUIZ INTERACTION
+   ========================================================================== */
+.quiz-container ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 20px;
+}
+
+.quiz-container li {
+  margin-bottom: 22px;
+  line-height: 1.8;
+  position: relative;
+}
+
+.q-num {
+  font-weight: 800;
+  color: #1c1c1c;
+  margin-right: 4px;
+}
+
+.quiz-toggle {
+  display: none;
+}
+
+.btn-answer {
+  display: inline-block;
+  cursor: pointer;
+  background-color: #1c1c1c;
+  color: #ece9e0;
+  padding: 3px 10px;
+  margin-left: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  transition: background-color 0.25s ease, transform 0.1s ease;
+  user-select: none;
+}
+
+.btn-answer:hover {
+  background-color: #2a6e3f;
+}
+
+.btn-answer:active {
+  transform: scale(0.96);
+}
+
+.quiz-answer {
+  display: none;
+  background-color: #eaf2ed;
+  color: #1e4d2b;
+  padding: 4px 12px;
+  margin-left: 8px;
+  border-radius: 3px;
+  font-size: 0.93rem;
+  border-left: 3px solid #2a6e3f;
+}
+
+.quiz-toggle:checked + .quiz-answer {
+  display: inline-block;
+  animation: fadeInRight 0.3s ease forwards;
+}
+
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ==========================================================================
+   13. SCROLL TO TOP
+   ========================================================================== */
+.btn-top {
+  position: fixed;
+  bottom: 40px;
+  right: 150px;
+  background-color: #1c1c1c;
+  color: #ece9e0;
+  text-decoration: none;
+  padding: 12px 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 30px;
+  box-shadow: 0 4px 14px rgba(28, 28, 28, 0.18);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+}
+
+.btn-top:hover {
+  background-color: #2a6e3f;
+  transform: translateY(-4px);
+}
+
+/* ==========================================================================
+   14. RESPONSIVE
+   ========================================================================== */
+@media (max-width: 768px) {
+  body {
+    padding: 0 20px 80px;
+  }
+
+  .hero {
+    padding: 50px 0 36px;
+    margin-bottom: 50px;
+  }
+
+  .btn-top {
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .branch-content {
+    padding-left: 48px;
+  }
+}

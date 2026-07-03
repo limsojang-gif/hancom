@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRONTEND BASIC</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body id="top">
+
+    <header class="hero">
+  <h1>Frontend Basic</h1>
+</header>
+
+<main class="mindmap-container">
+
+  <details class="branch">
+    <summary class="branch-title">HTML</summary>
+    <div class="branch-content">
+
+      <details class="sub-branch">
+        <summary class="sub-branch-title">HTML이란?</summary>
+        <div class="sub-branch-content card-style">
+          <p><strong>HyperText Markup Language</strong>의 약자로, 브라우저가 이해할 수 있는 웹 페이지의 뼈대(구조)를 만드는 가장 기본적인 언어입니다. 텍스트, 이미지, 링크 등을 화면에 정의합니다.</p>
+        </div>
+      </details>
+
+      <details class="sub-branch">
+        <summary class="sub-branch-title">HTML의 기본 구조</summary>
+        <div class="sub-branch-content card-style">
+          <p>모든 HTML 문서는 아래와 같은 필수 뼈대를 가집니다.</p>
+          <ul>
+            <li><strong>&lt;!DOCTYPE html&gt;</strong>: 이 문서가 HTML5 표준으로 작성되었음을 선언합니다.</li>
+            <li><strong>&lt;html&gt;</strong>: 웹 문서의 시작과 끝을 감싸는 뿌리 태그입니다.</li>
+            <li><strong>&lt;head&gt;</strong>: 메타 데이터, 탭 제목, CSS 링크 등 화면에 보이지 않는 설정값을 담습니다.</li>
+            <li><strong>&lt;body&gt;</strong>: 브라우저 화면에 실제로 보여지는 모든 콘텐츠가 들어가는 공간입니다.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="sub-branch">
+        <summary class="sub-branch-title">주요 코드 (Tags)</summary>
+        <div class="sub-branch-content card-style">
+          <p>웹 표준과 접근성을 지키기 위해 역할에 맞는 태그(시맨틱 마크업)를 사용해야 합니다.</p>
+          <ul>
+            <li><strong>&lt;header&gt;, &lt;main&gt;, &lt;footer&gt;</strong>: 문서의 구역을 의미 있게 나누는 시맨틱 태그</li>
+            <li><strong>&lt;h1&gt; ~ &lt;h6&gt;</strong>: 콘텐츠의 제목과 텍스트의 위계를 나타내는 태그</li>
+            <li><strong>&lt;a href="..."&gt;</strong>: 다른 페이지나 위치로 연결하는 하이퍼링크 태그</li>
+            <li><strong>&lt;img src="..." alt="..."&gt;</strong>: 이미지를 삽입하며, 대체 텍스트(alt)를 필수로 포함</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+  </details>
+
+<details class="branch">
+    <summary class="branch-title">CSS</summary>
+    <div class="branch-content">
+
+      <details class="sub-branch">
+        <summary class="sub-branch-title">CSS란?</summary>
+        <div class="sub-branch-content card-style">
+          <p><strong>Cascading Style Sheets</strong>의 약자로, HTML로 만든 웹 페이지의 뼈대에 색상, 크기, 폰트 등의 디자인을 입혀 시각적으로 아름답게 꾸며주는 스타일링 언어입니다.</p>
+        </div>
+      </details>
+
+      <details class="sub-branch">
+        <summary class="sub-branch-title">CSS의 구조</summary>
+        <div class="sub-branch-content card-style">
+          <p>CSS는 기본적으로 <strong>'누구에게(선택자)', '무엇을(속성)', '어떻게(값)'</strong> 할 것인지 지정하는 문법 구조를 가집니다.</p>
+          <ul>
+            <li><strong>선택자 (Selector):</strong> 스타일을 적용할 HTML 태그 (예: <code>h1</code>, <code>.box</code>)</li>
+            <li><strong>속성 (Property):</strong> 변경할 스타일의 종류 (예: <code>color</code>, <code>font-size</code>)</li>
+            <li><strong>값 (Value):</strong> 속성에 적용할 구체적인 수치나 상태 (예: <code>blue</code>, <code>16px</code>)</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="sub-branch">
+        <summary class="sub-branch-title">CSS의 주요 코드</summary>
+        <div class="sub-branch-content card-style">
+          <p>웹사이트의 레이아웃과 여백을 잡는 데 가장 자주 쓰이는 핵심 속성들입니다.</p>
+          <ul>
+            <li><strong>display (flex / grid):</strong> 요소들을 가로/세로로 유연하게 배치하는 현대적인 레이아웃 시스템</li>
+            <li><strong>margin / padding:</strong> 박스의 바깥쪽 여백(margin)과 안쪽 여백(padding)</li>
+            <li><strong>width / height:</strong> 요소의 너비와 높이</li>
+            <li><strong>background-color:</strong> 배경 색상을 지정</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="sub-branch">
+        <summary class="sub-branch-title">CSS 선택자</summary>
+        <div class="sub-branch-content card-style">
+          <p>특정 요소만 콕 집어서 디자인을 적용하기 위해 다양한 선택자를 활용합니다.</p>
+          <ul>
+            <li><strong>태그 선택자:</strong> <code>p { ... }</code> (모든 p 태그에 적용)</li>
+            <li><strong>클래스(Class) 선택자:</strong> <code>.card { ... }</code> (특정 이름을 가진 그룹에 적용, 앞에 점(.) 사용)</li>
+            <li><strong>아이디(ID) 선택자:</strong> <code>#header { ... }</code> (페이지 내 유일한 요소에 적용, 앞에 샵(#) 사용)</li>
+            <li><strong>가상 클래스:</strong> <code>:hover { ... }</code> (마우스를 올렸을 때 등의 상태를 지정)</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+  </details>
+
+<details class="branch">
+    <summary class="branch-title">QUIZ</summary>
+    <div class="branch-content">
+      
+      <details class="sub-branch">
+        <summary class="sub-branch-title">Frontend Self-Test</summary>
+        <div class="sub-branch-content card-style quiz-container">
+          <p>퀴즈의 정답은 <strong>'정답 보기'</strong> 버튼을 클릭해 보세요!</p>
+          
+          <ul>
+            <li>
+              <span class="q-num">Q1.</span> 웹 브라우저 화면에서 사용자에게 실제로 보여지는 내용을 담아내는 HTML 태그는 무엇일까요?
+              <label for="quiz1" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz1" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong>body 태그</span>
+            </li>
+
+            <li>
+              <span class="q-num">Q2.</span> 박스 모델의 크기 계산 방식을 테두리(border) 기준으로 고정하는 속성은?
+              <label for="quiz2" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz2" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong> box-sizing: border-box;</span>
+            </li>
+
+            <li>
+              <span class="q-num">Q3.</span> Flex 레이아웃에서 자식 요소를 가로축 기준 정중앙 정렬하는 속성은?
+              <label for="quiz3" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz3" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong> justify-content: center;</span>
+            </li>
+
+            <li>
+              <span class="q-num">Q4.</span> 이미지 로딩 실패 시 대비하여 대체 텍스트를 제공하는 필수 속성의 이름은?
+              <label for="quiz4" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz4" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong> alt 속성</span>
+            </li>
+
+            <li>
+              <span class="q-num">Q5.</span> 마우스를 올렸을 때(호버 상태)의 스타일을 지정하는 가상 클래스는?
+              <label for="quiz5" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz5" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong> :hover</span>
+            </li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+  </details>
+
+<details class="branch">
+  <summary class="branch-title">Web Archive</summary>
+  <div class="branch-content">
+    
+    <details class="sub-branch">
+      <summary class="sub-branch-title">Reference 01: Koto</summary>
+      <div class="sub-branch-content card-style">
+        
+        <img src="images/imag01.png" alt="Koto 웹사이트 팀원 소개 인터랙션 화면">
+        
+        <h3>글로벌 크리에이티브 스튜디오</h3>
+        <p>글로벌 브랜드의 리브랜딩으로 유명한 크리에이티브 스튜디오입니다.</p>
+        
+        <h3>나의 의견 및 분석</h3>
+        <p>감각적인 영상과 다양한 브랜드의 시각적 브랜딩 설계를 엿볼 수 있습니다. 특히 사이트 내에 곳곳에 숨겨진 다양한 인터랙션은 사용자에게 웹을 탐험하는 재미를 줍니다.</p>
+        
+        <div class="link-box">
+          <a href="https://koto.com/" target="_blank" class="external-link">Koto 웹사이트 바로가기 ↗</a>
+        </div>
+        
+      </div>
+    </details>
+
+  </div>
+</details>
+
+    </div>
+  </details>
+
+</main>
+<a href="#top" class="btn-top">TOP ↑</a>
+    
+</body>
+</html>
