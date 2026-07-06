@@ -4,6 +4,26 @@
    ========================================================================== */
 
 /* ==========================================================================
+   0. DESIGN TOKENS
+   ========================================================================== */
+:root {
+  --ink:          #1c1c1c;
+  --accent:       #2a6e3f;
+  --accent-dark:  #1e4d2b;
+  --bg:           #f1f0ed;
+  --bg-warm:      #ece9e0;
+  --bg-card:      #f5f2ea;
+  --bg-tip:       #eaf2ed;
+  --bg-code:      #e4e0d6;
+  --text:         #3a3835;
+  --text-card:    #2e2c2a;
+  --text-muted:   #7a7670;
+  --border:       #ccc8be;
+  --border-light: #d0ccc4;
+  --border-mid:   #b8b4aa;
+}
+
+/* ==========================================================================
    1. RESET & BASE
    ========================================================================== */
 *, *::before, *::after {
@@ -19,8 +39,7 @@ html {
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, "Malgun Gothic", "맑은 고딕", sans-serif;
 
-  /* 신문지 느낌: 따뜻한 오프화이트 + 미세 수평 라인 텍스처 */
-  background-color: #ece9e0;
+  background-color: var(--bg);
   background-image:
     repeating-linear-gradient(
       0deg,
@@ -30,7 +49,7 @@ body {
       transparent 5px
     );
 
-  color: #1c1c1c; /* 완전한 블랙이 아닌, 회색기 살짝 탄 블랙 */
+  color: var(--ink);
   line-height: 1.65;
   padding: 0 40px 120px;
   letter-spacing: -0.01em;
@@ -53,7 +72,7 @@ body::after {
 
 /* 키워드 초록 강조 */
 .key {
-  color: #2a6e3f;
+  color: var(--accent);
   font-weight: 700;
 }
 
@@ -64,7 +83,7 @@ body::after {
   max-width: 900px;
   margin: 0 auto 80px auto;
   padding: 80px 0 48px;
-  border-bottom: 2px solid #1c1c1c;
+  border-bottom: 2px solid var(--ink);
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -78,7 +97,7 @@ body::after {
   left: 0;
   height: 2px;
   width: 0;
-  background: #1c1c1c;
+  background: var(--ink);
   animation: lineGrow 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
 }
 
@@ -93,7 +112,7 @@ body::after {
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #7a7670;
+  color: var(--text-muted);
   margin-bottom: 20px;
   opacity: 0;
   animation: fadeUp 0.8s ease 0.2s both;
@@ -109,7 +128,6 @@ body::after {
   word-break: keep-all;
   overflow-wrap: break-word;
 
-  /* 블러 + 슬라이드업 등장 */
   opacity: 0;
   animation: heroReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
 }
@@ -154,7 +172,7 @@ body::after {
   left: 15px;
   width: 1.5px;
   height: 100%;
-  background-color: #1c1c1c;
+  background-color: var(--ink);
   z-index: 1;
   transform-origin: top;
   animation: trunkGrow 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.8s both;
@@ -167,8 +185,14 @@ body::after {
 
 .branch {
   position: relative;
-  margin-bottom: 28px;
+  margin-bottom: 48px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
   z-index: 2;
+}
+
+.branch:last-child {
+  border-bottom: none;
 }
 
 /* ==========================================================================
@@ -177,7 +201,7 @@ body::after {
 summary.branch-title {
   list-style: none;
   cursor: pointer;
-  font-size: 1.55rem;
+  font-size: 1.75rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -201,8 +225,8 @@ summary.branch-title::before {
   transform: translateY(-50%);
   width: 11px;
   height: 11px;
-  background-color: #ece9e0;
-  border: 2px solid #1c1c1c;
+  background-color: var(--bg-warm);
+  border: 2px solid var(--ink);
   border-radius: 50%;
   transition: background-color 0.3s ease, scale 0.3s ease;
   z-index: 3;
@@ -218,12 +242,12 @@ summary.branch-title:hover::before {
 }
 
 .branch[open] summary.branch-title::before {
-  background-color: #2a6e3f;
-  border-color: #2a6e3f;
+  background-color: var(--accent);
+  border-color: var(--accent);
 }
 
 .branch[open] summary.branch-title {
-  color: #1c1c1c;
+  color: var(--ink);
 }
 
 /* ==========================================================================
@@ -242,7 +266,7 @@ summary.branch-title:hover::before {
 .branch[open] .branch-content {
   opacity: 1;
   transform: translateY(0);
-  max-height: 3500px;
+  max-height: 6000px;
 }
 
 /* 'ㄴ'자 가로 연결선 */
@@ -253,8 +277,8 @@ summary.branch-title:hover::before {
   left: 15px;
   width: 40px;
   height: 35px;
-  border-left: 1.5px solid #b8b4aa;
-  border-bottom: 1.5px solid #b8b4aa;
+  border-left: 1.5px solid var(--border-mid);
+  border-bottom: 1.5px solid var(--border-mid);
   border-bottom-left-radius: 4px;
 }
 
@@ -262,15 +286,15 @@ summary.branch-title:hover::before {
    6. 본문 타이포그래피
    ========================================================================== */
 .branch-content h3 {
-  font-size: 0.78rem;
+  font-size: 0.95rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: #1c1c1c;
+  letter-spacing: 0.14em;
+  color: var(--ink);
   margin-top: 22px;
   margin-bottom: 8px;
   padding-top: 6px;
-  border-top: 1px solid #d0ccc4;
+  border-top: 1px solid var(--border-light);
 }
 
 .branch-content h3:first-child {
@@ -280,7 +304,7 @@ summary.branch-title:hover::before {
 
 .branch-content p {
   font-size: 0.97rem;
-  color: #3a3835;
+  color: var(--text);
   max-width: 680px;
   margin-bottom: 14px;
   line-height: 1.75;
@@ -289,9 +313,9 @@ summary.branch-title:hover::before {
 .branch-content li {
   font-size: 0.97rem;
   padding: 10px 0;
-  border-bottom: 1px dashed #ccc8be;
+  border-bottom: 1px dashed var(--border);
   max-width: 680px;
-  color: #3a3835;
+  color: var(--text);
   line-height: 1.65;
 }
 
@@ -305,9 +329,9 @@ summary.branch-title:hover::before {
 .sub-branch-title {
   list-style: none;
   cursor: pointer;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #5a5752;
+  color: var(--text);
   padding: 9px 0;
   transition: color 0.25s ease;
   position: relative;
@@ -323,35 +347,35 @@ summary.branch-title:hover::before {
   margin-right: 10px;
   font-weight: 300;
   font-size: 1.15rem;
-  color: #1c1c1c;
+  color: var(--ink);
   transition: color 0.2s;
 }
 
 .sub-branch[open] .sub-branch-title::before {
   content: '−';
-  color: #2a6e3f;
+  color: var(--accent);
 }
 
 .sub-branch[open] .sub-branch-title {
-  color: #1c1c1c;
+  color: var(--ink);
 }
 
 .sub-branch-title:hover {
-  color: #1c1c1c;
+  color: var(--ink);
 }
 
 /* ==========================================================================
    8. CARD STYLE — 콘텐츠 박스
    ========================================================================== */
 .sub-branch-content.card-style {
-  background-color: #f5f2ea;
-  border: 1px solid #ccc8be;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 22px 24px;
   margin-top: 8px;
   margin-bottom: 18px;
   font-size: 0.95rem;
-  color: #2e2c2a;
+  color: var(--text-card);
   animation: fadeSlideDown 0.3s ease forwards;
   transform-origin: top;
   position: relative;
@@ -365,13 +389,13 @@ summary.branch-title:hover::before {
   bottom: 12px;
   left: 0;
   width: 3px;
-  background: #d0ccc4;
+  background: var(--border-light);
   border-radius: 0 2px 2px 0;
   transition: background 0.3s;
 }
 
 .sub-branch[open] .sub-branch-content.card-style::before {
-  background: #2a6e3f;
+  background: var(--accent);
 }
 
 .card-style ul {
@@ -381,7 +405,7 @@ summary.branch-title:hover::before {
 }
 
 .card-style li {
-  border-bottom: 1px dashed #ccc8be;
+  border-bottom: 1px dashed var(--border);
   padding: 10px 0;
   margin-bottom: 0;
   max-width: 100%;
@@ -400,11 +424,11 @@ summary.branch-title:hover::before {
 .tip-box {
   margin-top: 16px;
   padding: 12px 16px;
-  background: #eaf2ed;
-  border-left: 3px solid #2a6e3f;
+  background: var(--bg-tip);
+  border-left: 3px solid var(--accent);
   border-radius: 2px;
   font-size: 0.88rem;
-  color: #1e4d2b;
+  color: var(--accent-dark);
   line-height: 1.65;
 }
 
@@ -414,7 +438,8 @@ summary.branch-title:hover::before {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 6px;
-  color: #2a6e3f;
+  color: var(--accent);
+  border-bottom: none;
 }
 
 @keyframes fadeSlideDown {
@@ -426,14 +451,21 @@ summary.branch-title:hover::before {
    9. CODE HIGHLIGHT
    ========================================================================== */
 .card-style code {
-  background-color: #e4e0d6;
-  color: #2a6e3f;
+  background-color: var(--bg-code);
+  color: var(--accent);
   padding: 2px 7px;
   border-radius: 3px;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.88em;
   font-weight: 600;
   letter-spacing: 0;
+}
+
+/* strong 키워드 강조 */
+.card-style strong {
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom: 1.5px solid var(--border-mid);
 }
 
 /* ==========================================================================
@@ -446,7 +478,7 @@ summary.branch-title:hover::before {
   display: block;
   margin: 20px 0;
   filter: grayscale(100%) contrast(1.05);
-  border: 1px solid #1c1c1c;
+  border: 1px solid var(--ink);
   transition: filter 0.6s ease;
 }
 
@@ -464,20 +496,20 @@ summary.branch-title:hover::before {
 .external-link {
   display: inline-block;
   position: relative;
-  color: #1c1c1c;
+  color: var(--ink);
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 10px 18px;
-  border: 1.5px solid #1c1c1c;
+  border: 1.5px solid var(--ink);
   overflow: hidden;
   z-index: 0;
   transition: color 0.4s ease;
 }
 
-/* 슬라이드 배경 — 기본: 오른쪽 바깥에 대기 */
+/* 슬라이드 배경 — 기본: 왼쪽 바깥에 대기 */
 .external-link::before {
   content: '';
   position: absolute;
@@ -485,14 +517,14 @@ summary.branch-title:hover::before {
   left: -100%;
   width: 100%;
   height: 100%;
-  background-color: #2a6e3f;
+  background-color: var(--accent);
   z-index: -1;
   transition: left 0.42s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .external-link:hover {
   color: #ffffff;
-  border-color: #2a6e3f;
+  border-color: var(--accent);
 }
 
 .external-link:hover::before {
@@ -527,7 +559,7 @@ summary.branch-title:hover::before {
 
 .q-num {
   font-weight: 800;
-  color: #1c1c1c;
+  color: var(--ink);
   margin-right: 4px;
 }
 
@@ -538,8 +570,8 @@ summary.branch-title:hover::before {
 .btn-answer {
   display: inline-block;
   cursor: pointer;
-  background-color: #1c1c1c;
-  color: #ece9e0;
+  background-color: var(--ink);
+  color: var(--bg-warm);
   padding: 3px 10px;
   margin-left: 8px;
   font-size: 0.78rem;
@@ -552,7 +584,7 @@ summary.branch-title:hover::before {
 }
 
 .btn-answer:hover {
-  background-color: #2a6e3f;
+  background-color: var(--accent);
 }
 
 .btn-answer:active {
@@ -561,17 +593,17 @@ summary.branch-title:hover::before {
 
 .quiz-answer {
   display: none;
-  background-color: #eaf2ed;
-  color: #1e4d2b;
-  padding: 4px 12px;
-  margin-left: 8px;
+  background-color: var(--bg-tip);
+  color: var(--accent-dark);
+  padding: 8px 12px;
+  margin-top: 10px;
   border-radius: 3px;
   font-size: 0.93rem;
-  border-left: 3px solid #2a6e3f;
+  border-left: 3px solid var(--accent);
 }
 
 .quiz-toggle:checked + .quiz-answer {
-  display: inline-block;
+  display: block;
   animation: fadeInRight 0.3s ease forwards;
 }
 
@@ -586,9 +618,9 @@ summary.branch-title:hover::before {
 .btn-top {
   position: fixed;
   bottom: 40px;
-  right: 150px;
-  background-color: #1c1c1c;
-  color: #ece9e0;
+  right: 40px;
+  background-color: var(--ink);
+  color: var(--bg-warm);
   text-decoration: none;
   padding: 12px 20px;
   font-size: 0.82rem;
@@ -602,7 +634,7 @@ summary.branch-title:hover::before {
 }
 
 .btn-top:hover {
-  background-color: #2a6e3f;
+  background-color: var(--accent);
   transform: translateY(-4px);
 }
 

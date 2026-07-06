@@ -9,6 +9,7 @@
 <body id="top">
 
     <header class="hero">
+  <span class="hero-label">Web Development Fundamentals</span>
   <h1>Frontend Basic</h1>
 </header>
 
@@ -48,6 +49,10 @@
             <li><strong>&lt;a href="..."&gt;</strong>: 다른 페이지나 위치로 연결하는 하이퍼링크 태그</li>
             <li><strong>&lt;img src="..." alt="..."&gt;</strong>: 이미지를 삽입하며, 대체 텍스트(alt)를 필수로 포함</li>
           </ul>
+          <div class="tip-box">
+            <strong>핵심 원칙</strong>
+            시맨틱 태그는 브라우저와 스크린리더 모두에게 콘텐츠의 "의미"를 전달합니다. <code>&lt;div&gt;</code>로 모든 것을 감싸지 말고, 역할에 맞는 태그를 먼저 찾는 습관을 들이세요.
+          </div>
         </div>
       </details>
 
@@ -87,6 +92,10 @@
             <li><strong>width / height:</strong> 요소의 너비와 높이</li>
             <li><strong>background-color:</strong> 배경 색상을 지정</li>
           </ul>
+          <div class="tip-box">
+            <strong>헷갈리기 쉬운 포인트</strong>
+            <code>margin</code>은 요소 바깥의 공간, <code>padding</code>은 요소 안쪽의 공간입니다. 배경색은 <code>padding</code> 영역까지 채워지지만 <code>margin</code> 영역은 채워지지 않습니다.
+          </div>
         </div>
       </details>
 
@@ -100,6 +109,10 @@
             <li><strong>아이디(ID) 선택자:</strong> <code>#header { ... }</code> (페이지 내 유일한 요소에 적용, 앞에 샵(#) 사용)</li>
             <li><strong>가상 클래스:</strong> <code>:hover { ... }</code> (마우스를 올렸을 때 등의 상태를 지정)</li>
           </ul>
+          <div class="tip-box">
+            <strong>실무 권장 방식</strong>
+            실무에서는 태그 선택자보다 <code>class</code> 선택자를 주로 사용합니다. ID 선택자는 우선순위가 매우 높아 나중에 스타일 덮어쓰기가 어려워지므로, 스타일 용도로는 가급적 피하세요.
+          </div>
         </div>
       </details>
 
@@ -150,6 +163,27 @@
               <input type="checkbox" id="quiz5" class="quiz-toggle">
               <span class="quiz-answer"><strong>A.</strong> :hover</span>
             </li>
+
+            <li>
+              <span class="q-num">Q6.</span> HTML에서 문서의 언어 설정 및 페이지 전체를 감싸는 최상위 태그는 무엇인가요?
+              <label for="quiz6" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz6" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong> &lt;html lang="ko"&gt; 태그</span>
+            </li>
+
+            <li>
+              <span class="q-num">Q7.</span> CSS에서 요소의 크기 계산 기준을 테두리(border) 포함으로 고정하는 속성 값은?
+              <label for="quiz7" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz7" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong> box-sizing: border-box</span>
+            </li>
+
+            <li>
+              <span class="q-num">Q8.</span> 시맨틱 태그를 사용하는 가장 중요한 이유 두 가지는 무엇인가요?
+              <label for="quiz8" class="btn-answer">정답 보기</label>
+              <input type="checkbox" id="quiz8" class="quiz-toggle">
+              <span class="quiz-answer"><strong>A.</strong> 웹 접근성(스크린리더 지원)과 검색엔진 최적화(SEO)</span>
+            </li>
           </ul>
         </div>
       </details>
@@ -164,27 +198,41 @@
     <details class="sub-branch">
       <summary class="sub-branch-title">Reference 01: Koto</summary>
       <div class="sub-branch-content card-style">
-        
+
         <img src="images/imag01.png" alt="Koto 웹사이트 팀원 소개 인터랙션 화면">
-        
-        <h3>글로벌 크리에이티브 스튜디오</h3>
+
+        <strong>글로벌 크리에이티브 스튜디오</strong>
         <p>글로벌 브랜드의 리브랜딩으로 유명한 크리에이티브 스튜디오입니다.</p>
-        
+
         <h3>나의 의견 및 분석</h3>
-        <p>감각적인 영상과 다양한 브랜드의 시각적 브랜딩 설계를 엿볼 수 있습니다. 특히 사이트 내에 곳곳에 숨겨진 다양한 인터랙션은 사용자에게 웹을 탐험하는 재미를 줍니다.</p>
-        
+        <p>감각적인 영상과 다양한 브랜드의 시각적 브랜딩 설계를 엿볼 수 있습니다. 특히 사이트 내 곳곳에 숨겨진 다양한 인터랙션은 사용자에게 웹을 탐험하는 재미를 줍니다.</p>
+
         <div class="link-box">
           <a href="https://koto.com/" target="_blank" class="external-link">Koto 웹사이트 바로가기 ↗</a>
         </div>
-        
+
       </div>
     </details>
 
-  </div>
-</details>
+    <details class="sub-branch">
+      <summary class="sub-branch-title">Reference 02: Awwwards</summary>
+      <div class="sub-branch-content card-style">
 
-    </div>
-  </details>
+        <img src="images\imag02.png" alt="소개 인터랙션 화면">
+
+        <strong>웹 디자인 어워드 플랫폼</strong>
+        <p>전 세계 최고 수준의 웹 디자인 작품을 큐레이션하는 어워드 사이트입니다. HTML, CSS, 인터랙션 디자인의 현재 트렌드를 한눈에 파악할 수 있습니다.</p>
+
+        <h3>나의 의견 및 분석</h3>
+        <p>수상작들을 보면 단순히 "예쁜 사이트"가 아니라 사용자 경험(UX)과 시각적 완성도가 함께 설계된 작품임을 알 수 있습니다. 레이아웃과 애니메이션 구현 방식을 학습하기 좋은 레퍼런스입니다.</p>
+
+        <div class="link-box">
+          <a href="https://www.awwwards.com/" target="_blank" class="external-link">Awwwards 바로가기 ↗</a>
+        </div>
+
+      </div>
+    </details>
+
 
 </main>
 <a href="#top" class="btn-top">TOP ↑</a>
