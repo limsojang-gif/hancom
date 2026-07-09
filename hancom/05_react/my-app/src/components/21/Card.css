@@ -1,0 +1,17 @@
+.card {
+  background: #be3737;
+  border: 10px solid #ee9898;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.card span {
+  color: rgb(218, 206, 206);
+  font-size: 50px;
+}
+
+.card h3 {
+
+    background: #faf7f7;
+    margin: 0px 200px;
+}

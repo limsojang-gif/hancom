@@ -1,0 +1,9 @@
+.box {                     
+  padding: 20px;
+  background: #1e0e75;
+  border-radius: 12px;
+  text-align: center;
+}
+.box h1 { color: #d8d1dd; }
+
+.box p {color: aquamarine;}
