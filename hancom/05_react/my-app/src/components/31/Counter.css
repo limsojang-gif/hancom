@@ -1,0 +1,47 @@
+/* 전체 컨테이너 정렬 */
+.counter-container {
+    display: flex;
+    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; /* 가로 가운데 정렬 */
+    gap: 15px; /* 버튼과 숫자 사이의 간격 */
+    padding: 30px;
+}
+
+/* 둥근 버튼 공통 스타일 */
+.counter-container button {
+    border: none;
+    border-radius: 25px; /* 🌟 이 수치를 키울수록 더 둥글어집니다 */
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    background-color: #e0e4e8;
+    cursor: pointer;
+    transition: all 0.2s ease; /* 마우스 올렸을 때 부드러운 효과 */
+}
+
+/* 마우스를 올렸을 때(Hover) 색상 변화 */
+.counter-container button:hover {
+    background-color: #cdd3d8;
+    transform: translateY(-2px); /* 살짝 위로 떠오르는 효과 */
+}
+
+/* 리셋 버튼 포인트 색상 */
+.counter-container .reset-btn {
+    background-color: #ff8a80;
+    color: white;
+    margin-left: 10px; /* 리셋 버튼만 +1 버튼에서 조금 더 띄우기 */
+}
+
+.counter-container .reset-btn:hover {
+    background-color: #ff5252;
+}
+
+/* 가운데 숫자 스타일 */
+.counter-container span {
+    font-size: 28px;
+    font-weight: bold;
+    color: #183f52; 
+    min-width: 50px; /* 숫자가 두 자리, 세 자리로 커져도 버튼이 밀리지 않게 고정 */
+    text-align: center;
+}
