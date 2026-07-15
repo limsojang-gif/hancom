@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starbucks Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #9db89a 0%, #b8d9c7 20%, #a8d5ba 35%, #c9b8a6 55%, #b8d4cc 75%, #8fbc8f 100%);
+            background-size: 300% 300%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            letter-spacing: -0.01em;
+            position: relative;
+            overflow-x: hidden;
+            animation: gradient-shift 14s ease-in-out infinite;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Sparkle effect container */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(2px 2px at 20% 30%, rgba(255, 255, 255, 0.45), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(230, 245, 235, 0.4), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(240, 250, 240, 0.4), transparent),
+                radial-gradient(1px 1px at 80% 20%, rgba(245, 240, 230, 0.35), transparent),
+                radial-gradient(2px 2px at 10% 90%, rgba(230, 240, 240, 0.35), transparent),
+                radial-gradient(1px 1px at 40% 10%, rgba(245, 250, 245, 0.4), transparent),
+                radial-gradient(2px 2px at 90% 60%, rgba(250, 245, 235, 0.3), transparent),
+                radial-gradient(1px 1px at 35% 65%, rgba(240, 250, 240, 0.35), transparent);
+            background-size: 200% 200%;
+            background-position: 0% 0%;
+            pointer-events: none;
+            z-index: 0;
+            animation: sparkle-drift 22s ease-in-out infinite;
+        }
+
+        @keyframes sparkle-drift {
+            0% { background-position: 0% 0%; opacity: 0.25; }
+            25% { opacity: 0.4; }
+            50% { background-position: 100% 100%; opacity: 0.3; }
+            75% { opacity: 0.4; }
+            100% { background-position: 0% 0%; opacity: 0.25; }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            width: 100%;
+            max-width: 360px;
+        }
+
+        .calculator-wrapper {
+            width: 100%;
+        }
+
+        .calculator-title {
+            font-size: 32px;
+            font-weight: 300;
+            color: #6b8a70;
+            margin-bottom: 24px;
+            letter-spacing: -0.01em;
+            text-align: center;
+        }
+
+        .calculator {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 0 0.5px rgba(0,0,0,0.14), 0 1px 1px rgba(0,0,0,0.24);
+            padding: 24px;
+            width: 100%;
+        }
+
+        .display {
+            background-color: #ffffff;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 16px 0 24px;
+            margin-bottom: 24px;
+        }
+
+        .history {
+            text-align: right;
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.58);
+            min-height: 16px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .result {
+            text-align: right;
+            font-size: 3.2rem;
+            font-weight: 300;
+            color: rgba(0, 0, 0, 0.87);
+            word-wrap: break-word;
+            word-break: break-all;
+            line-height: 1.2;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            padding: 16px;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
+            touch-action: manipulation;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:focus-visible {
+            outline: 2px solid #00754A;
+            outline-offset: 2px;
+        }
+
+        /* Number buttons */
+        .num-btn {
+            background-color: #f9f9f9;
+            color: rgba(0, 0, 0, 0.87);
+            border: 1px solid #f0f0f0;
+        }
+
+        .num-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Operator buttons (outlined green) */
+        .op-btn {
+            background-color: transparent;
+            color: #00754A;
+            border: 1px solid #00754A;
+        }
+
+        .op-btn:hover {
+            background-color: rgba(0, 117, 74, 0.05);
+        }
+
+        /* Clear button (House Green filled) */
+        .clear-btn {
+            background-color: #1E3932;
+            color: #ffffff;
+            border: 1px solid #1E3932;
+            grid-column: span 2;
+        }
+
+        .clear-btn:hover {
+            background-color: #16292a;
+        }
+
+        /* Equals button (Green Accent filled) */
+        .equals-btn {
+            background-color: #00754A;
+            color: #ffffff;
+            border: 1px solid #00754A;
+            grid-column: span 2;
+            font-weight: 700;
+        }
+
+        .equals-btn:hover {
+            background-color: #006241;
+        }
+
+        /* Zero button spans 2 columns */
+        .zero-btn {
+            grid-column: span 2;
+        }
+
+        /* History section */
+        .history-section {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 0 0.5px rgba(0,0,0,0.14), 0 1px 1px rgba(0,0,0,0.24);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 12px;
+        }
+
+        .history-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .reset-history-btn {
+            background-color: #f9f9f9;
+            color: rgba(0, 0, 0, 0.87);
+            border: 1px solid #f0f0f0;
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .reset-history-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .reset-history-btn:active {
+            transform: scale(0.95);
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 8px;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .history-list::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 3px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb {
+            background: #d0d0d0;
+            border-radius: 3px;
+        }
+
+        .history-list::-webkit-scrollbar-thumb:hover {
+            background: #b0b0b0;
+        }
+
+        .history-item {
+            padding: 10px 12px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.87);
+            font-weight: 400;
+            line-height: 1.4;
+            border-left: 3px solid #00754A;
+        }
+
+        .history-item-expression {
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        .history-item-result {
+            color: #00754A;
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .history-empty {
+            text-align: center;
+            color: rgba(0, 0, 0, 0.58);
+            font-size: 13px;
+            padding: 20px 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .calculator {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .result {
+                font-size: 2.4rem;
+            }
+
+            .buttons {
+                gap: 10px;
+            }
+
+            button {
+                padding: 14px;
+                font-size: 13px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .ripple {
+                animation: none !important;
+            }
+            .leaf {
+                animation: none !important;
+            }
+            button {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator-wrapper">
+            <div class="calculator-title">계산기</div>
+            <div class="calculator">
+            <div class="display">
+                <div class="history" id="history"></div>
+                <div class="result" id="result">0</div>
+            </div>
+            <div class="buttons">
+                <button class="clear-btn" onclick="clearDisplay()">AC</button>
+                <button class="op-btn" onclick="toggleSign()">+/−</button>
+                <button class="op-btn" onclick="appendOperator('%')">%</button>
+                <button class="op-btn" onclick="appendOperator('÷')">÷</button>
+
+                <button class="num-btn" onclick="appendNumber('7')">7</button>
+                <button class="num-btn" onclick="appendNumber('8')">8</button>
+                <button class="num-btn" onclick="appendNumber('9')">9</button>
+                <button class="op-btn" onclick="appendOperator('×')">×</button>
+
+                <button class="num-btn" onclick="appendNumber('4')">4</button>
+                <button class="num-btn" onclick="appendNumber('5')">5</button>
+                <button class="num-btn" onclick="appendNumber('6')">6</button>
+                <button class="op-btn" onclick="appendOperator('−')">−</button>
+
+                <button class="num-btn" onclick="appendNumber('1')">1</button>
+                <button class="num-btn" onclick="appendNumber('2')">2</button>
+                <button class="num-btn" onclick="appendNumber('3')">3</button>
+                <button class="op-btn" onclick="appendOperator('+')">+</button>
+
+                <button class="num-btn zero-btn" onclick="appendNumber('0')">0</button>
+                <button class="num-btn" onclick="appendDecimal()">.</button>
+                <button class="equals-btn" onclick="calculate()">=</button>
+            </div>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header">
+                <div class="history-title">계산 기록</div>
+                <button class="reset-history-btn" onclick="clearHistory()">초기화</button>
+            </div>
+            <div class="history-list" id="history-list">
+                <div class="history-empty">계산 기록이 없습니다</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let display = '0';
+        let history = '';
+        let operator = null;
+        let previousValue = null;
+        let shouldResetDisplay = false;
+        let calculations = [];
+
+        const resultEl = document.getElementById('result');
+        const historyEl = document.getElementById('history');
+        const historyListEl = document.getElementById('history-list');
+
+        function updateDisplay() {
+            resultEl.textContent = display.length > 12 ? display.substring(0, 12) + '...' : display;
+            historyEl.textContent = history;
+        }
+
+        function appendNumber(num) {
+            if (shouldResetDisplay) {
+                display = num;
+                shouldResetDisplay = false;
+            } else {
+                display = display === '0' ? num : display + num;
+            }
+            updateDisplay();
+        }
+
+        function appendDecimal() {
+            if (shouldResetDisplay) {
+                display = '0.';
+                shouldResetDisplay = false;
+            } else if (!display.includes('.')) {
+                display += '.';
+            }
+            updateDisplay();
+        }
+
+        function toggleSign() {
+            const num = parseFloat(display);
+            display = String(num * -1);
+            updateDisplay();
+        }
+
+        function appendOperator(op) {
+            if (operator && !shouldResetDisplay) {
+                calculate();
+            }
+            previousValue = parseFloat(display);
+            operator = op === '÷' ? '/' : op === '×' ? '*' : op === '−' ? '-' : op;
+            history = display + ' ' + op + ' ';
+            shouldResetDisplay = true;
+            updateDisplay();
+        }
+
+        function calculate() {
+            if (operator === null || previousValue === null) return;
+
+            const currentValue = parseFloat(display);
+            let result;
+            let operatorSymbol = operator;
+
+            switch (operator) {
+                case '+':
+                    result = previousValue + currentValue;
+                    operatorSymbol = '+';
+                    break;
+                case '-':
+                    result = previousValue - currentValue;
+                    operatorSymbol = '−';
+                    break;
+                case '*':
+                    result = previousValue * currentValue;
+                    operatorSymbol = '×';
+                    break;
+                case '/':
+                    result = currentValue !== 0 ? previousValue / currentValue : 0;
+                    operatorSymbol = '÷';
+                    break;
+                case '%':
+                    result = previousValue % currentValue;
+                    operatorSymbol = '%';
+                    break;
+                default:
+                    return;
+            }
+
+            // Add to calculation history
+            const expression = `${previousValue} ${operatorSymbol} ${currentValue}`;
+            calculations.unshift({ expression, result: result });
+            updateHistoryDisplay();
+
+            history = '';
+            display = String(result);
+            operator = null;
+            previousValue = null;
+            shouldResetDisplay = true;
+            updateDisplay();
+        }
+
+        function clearDisplay() {
+            display = '0';
+            history = '';
+            operator = null;
+            previousValue = null;
+            shouldResetDisplay = false;
+            updateDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            if (calculations.length === 0) {
+                historyListEl.innerHTML = '<div class="history-empty">계산 기록이 없습니다</div>';
+                return;
+            }
+
+            historyListEl.innerHTML = calculations.map((calc, index) => `
+                <div class="history-item">
+                    <span class="history-item-expression">${calc.expression}</span>
+                    <span class="history-item-result">= ${calc.result}</span>
+                </div>
+            `).join('');
+        }
+
+        function clearHistory() {
+            calculations = [];
+            updateHistoryDisplay();
+        }
+
+        updateDisplay();
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') appendNumber(e.key);
+            if (e.key === '.') appendDecimal();
+            if (e.key === '+') appendOperator('+');
+            if (e.key === '-') appendOperator('−');
+            if (e.key === '*') appendOperator('×');
+            if (e.key === '/') { e.preventDefault(); appendOperator('÷'); }
+            if (e.key === '%') appendOperator('%');
+            if (e.key === 'Enter' || e.key === '=') { e.preventDefault(); calculate(); }
+            if (e.key === 'Escape') clearDisplay();
+            if (e.key === 'Backspace') {
+                display = display.length > 1 ? display.slice(0, -1) : '0';
+                updateDisplay();
+            }
+        });
+    </script>
+</body>
+</html>

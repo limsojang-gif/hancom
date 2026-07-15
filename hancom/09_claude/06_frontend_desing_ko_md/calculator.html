@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>계산기</title>
+<style>
+  /* ── LDSG 토큰 (line_desing.md §Colors / §Rounded / §Elevation) ─────────── */
+  :root {
+    --linegreen: #06C755;   /* brand-primary */
+    --linegreen-alt: #04A647;/* brand-primary-alt (pressed 대체가 아닌 라벨 위계용) */
+    --black: #000000;
+    --white: #FFFFFF;
+
+    --gray-100: #FCFCFC;
+    --gray-150: #F5F5F5;    /* 흰색 다음 가장 빈번한 표면 */
+    --gray-200: #EFEFEF;
+    --gray-300: #DFDFDF;    /* 기본 보더 */
+    --gray-350: #C8C8C8;
+    --gray-500: #949494;    /* 보조 텍스트 */
+    --gray-600: #777777;
+    --gray-900: #111111;
+
+    --radius-200: 5px;      /* 버튼 */
+    --radius-400: 12px;     /* 카드 */
+
+    --shadow-on-white-200: 0 1px 6px rgba(0,0,0,0.12);
+    --shadow-on-white-300: 0 1px 20px rgba(0,0,0,0.07);
+
+    /* KR 폴백: LINE Seed KR → Pretendard → system-native (Do 권장) */
+    --font: "LINE Seed KR", "Pretendard Variable", Pretendard,
+            -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+            "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+
+    --ease: cubic-bezier(0.22, 0.61, 0.36, 1); /* ease-out 계열 */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { height: 100%; }
+
+  body {
+    font-family: var(--font);
+    background: var(--gray-150);
+    color: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .calc {
+    width: 100%;
+    max-width: 340px;
+    background: var(--white);
+    border-radius: var(--radius-400);
+    box-shadow: var(--shadow-on-white-300);
+    padding: 20px;             /* modal/popup 본문 인셋 = 20px */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ── 디스플레이 ───────────────────────────────────────────────── */
+  .display {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 12px 8px 8px;
+    min-height: 96px;
+    justify-content: flex-end;
+    overflow: hidden;
+  }
+  .display .expr {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--gray-500);
+    min-height: 20px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .display .result {
+    font-size: 40px;           /* title-xxl 급 */
+    line-height: 1.25;
+    font-weight: 700;
+    color: var(--black);
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.5px;
+  }
+  .display .result.error {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--gray-600);
+    letter-spacing: 0;
+  }
+
+  /* ── 키패드 ──────────────────────────────────────────────────── */
+  .pad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .key {
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    height: 60px;
+    border-radius: var(--radius-200);
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 500;
+    color: var(--black);
+    background: var(--gray-150);
+    box-shadow: var(--shadow-on-white-200);
+    user-select: none;
+    transition: transform .09s var(--ease),
+                box-shadow .09s var(--ease),
+                opacity .2s var(--ease),
+                background .2s var(--ease);
+  }
+
+  /* 숫자 키: 흰색 + 얇은 보더 */
+  .key.num {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    box-shadow: none;
+  }
+
+  /* 기능 키(AC ± %): 조용한 그레이 */
+  .key.fn { background: var(--gray-150); color: var(--gray-900); }
+
+  /* 연산자 열(÷ × − +): LINE Green 라벨로 위계 표시, 배경은 절제 */
+  .key.op {
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    color: var(--linegreen);
+    font-weight: 700;
+    font-size: 22px;
+    box-shadow: none;
+  }
+  .key.op[aria-pressed="true"] {
+    background: var(--linegreen);
+    border-color: var(--linegreen);
+    color: var(--white);
+  }
+
+  /* = 키: LINE Green 채움 (brand-primary) */
+  .key.equals {
+    background: var(--linegreen);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 24px;
+    border: none;
+    box-shadow: var(--shadow-on-white-200);
+  }
+
+  .key.zero { grid-column: span 2; }
+
+  /* ── 호버 (PC 전용 — LDSG: Hover는 웹/PC 전용, opacity 70%) ──────── */
+  @media (hover: hover) {
+    .key:hover { opacity: .7; transform: translateY(-1px); }
+    .key.num:hover, .key.op:hover { background: var(--gray-100); opacity: 1; }
+    .key.op:hover { color: var(--linegreen-alt); }
+  }
+
+  /* ── 타격감 (시그니처): press = 눌림 + opacity 50% ─────────────── */
+  .key:active,
+  .key.is-hit {
+    transform: scale(.96) translateY(1px);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    opacity: .5;
+    transition-duration: .05s;
+  }
+  .key.op:active, .key.equals:active { opacity: .55; }
+
+  /* 리플: 클릭 지점에서 퍼지는 LINE Green 링 */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    background: radial-gradient(circle, rgba(6,199,85,0.28) 0%, rgba(6,199,85,0) 70%);
+    animation: ripple .18s var(--ease) forwards;
+  }
+  .key.num .ripple, .key.fn .ripple {
+    background: radial-gradient(circle, rgba(6,199,85,0.22) 0%, rgba(6,199,85,0) 70%);
+  }
+  .key.equals .ripple, .key.op[aria-pressed="true"] .ripple {
+    background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 70%);
+  }
+  @keyframes ripple {
+    to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
+
+  /* ── 접근성 ──────────────────────────────────────────────────── */
+  .key:focus-visible {
+    outline: 2px solid var(--linegreen);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .key { transition: opacity .2s var(--ease), background .2s var(--ease); }
+    .key:active, .key.is-hit { transform: none; }
+    .ripple { display: none; }
+  }
+</style>
+</head>
+<body>
+  <main class="calc" role="application" aria-label="계산기">
+    <section class="display" aria-live="polite">
+      <div class="expr" id="expr"></div>
+      <div class="result" id="result">0</div>
+    </section>
+
+    <div class="pad" id="pad">
+      <button class="key fn"  data-action="clear">AC</button>
+      <button class="key fn"  data-action="sign">±</button>
+      <button class="key fn"  data-action="percent">%</button>
+      <button class="key op"  data-op="÷" aria-pressed="false">÷</button>
+
+      <button class="key num" data-digit="7">7</button>
+      <button class="key num" data-digit="8">8</button>
+      <button class="key num" data-digit="9">9</button>
+      <button class="key op"  data-op="×" aria-pressed="false">×</button>
+
+      <button class="key num" data-digit="4">4</button>
+      <button class="key num" data-digit="5">5</button>
+      <button class="key num" data-digit="6">6</button>
+      <button class="key op"  data-op="−" aria-pressed="false">−</button>
+
+      <button class="key num" data-digit="1">1</button>
+      <button class="key num" data-digit="2">2</button>
+      <button class="key num" data-digit="3">3</button>
+      <button class="key op"  data-op="+" aria-pressed="false">+</button>
+
+      <button class="key num zero" data-digit="0">0</button>
+      <button class="key num" data-action="decimal">.</button>
+      <button class="key equals" data-action="equals">=</button>
+    </div>
+  </main>
+
+<script>
+(() => {
+  "use strict";
+
+  // ── 상태 ──────────────────────────────────────────────────────
+  let current = "0";     // 화면에 보이는 피연산자(문자열)
+  let previous = null;   // 확정된 좌항(number)
+  let operator = null;   // "÷ × − +"
+  let overwrite = true;  // 다음 숫자 입력 시 current를 덮어쓸지
+  let errored = false;
+
+  const resultEl = document.getElementById("result");
+  const exprEl = document.getElementById("expr");
+  const pad = document.getElementById("pad");
+
+  const OPS = {
+    "÷": (a, b) => a / b,
+    "×": (a, b) => a * b,
+    "−": (a, b) => a - b,
+    "+": (a, b) => a + b,
+  };
+
+  // ── 포맷 ──────────────────────────────────────────────────────
+  const trim = (n) => parseFloat(n.toFixed(10)); // 부동소수 오차 정리
+
+  function format(str) {
+    if (str === "계산할 수 없음") return str;
+    const neg = str.startsWith("-");
+    let s = neg ? str.slice(1) : str;
+    let [int, frac] = s.split(".");
+    int = int.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    let out = frac !== undefined ? `${int}.${frac}` : int;
+    return (neg ? "-" : "") + out;
+  }
+
+  function render() {
+    resultEl.textContent = format(current);
+    resultEl.classList.toggle("error", errored);
+    if (previous !== null && operator) {
+      exprEl.textContent = `${format(String(previous))} ${operator}`;
+    } else {
+      exprEl.textContent = "";
+    }
+  }
+
+  function clearOpHighlight() {
+    pad.querySelectorAll('[data-op]').forEach((b) =>
+      b.setAttribute("aria-pressed", "false"));
+  }
+
+  // ── 계산 로직 ─────────────────────────────────────────────────
+  function inputDigit(d) {
+    if (errored) clearAll();
+    if (overwrite) { current = d; overwrite = false; }
+    else current = current === "0" ? d : current + d;
+  }
+
+  function inputDecimal() {
+    if (errored) clearAll();
+    if (overwrite) { current = "0."; overwrite = false; return; }
+    if (!current.includes(".")) current += ".";
+  }
+
+  function chooseOperator(op, btn) {
+    if (errored) return;
+    if (operator && !overwrite) compute();      // 연속 연산 체이닝
+    previous = parseFloat(current);
+    operator = op;
+    overwrite = true;
+    clearOpHighlight();
+    if (btn) btn.setAttribute("aria-pressed", "true");
+  }
+
+  function compute() {
+    if (operator === null || previous === null) return;
+    const a = previous;
+    const b = parseFloat(current);
+    if (operator === "÷" && b === 0) {
+      current = "계산할 수 없음";
+      errored = true;
+      previous = null; operator = null; overwrite = true;
+      clearOpHighlight();
+      return;
+    }
+    current = String(trim(OPS[operator](a, b)));
+    previous = null;
+    operator = null;
+    overwrite = true;
+    clearOpHighlight();
+  }
+
+  function clearAll() {
+    current = "0"; previous = null; operator = null;
+    overwrite = true; errored = false;
+    clearOpHighlight();
+  }
+
+  function toggleSign() {
+    if (errored) return;
+    if (current === "0") return;
+    current = current.startsWith("-") ? current.slice(1) : "-" + current;
+  }
+
+  function percent() {
+    if (errored) return;
+    current = String(trim(parseFloat(current) / 100));
+    overwrite = true;
+  }
+
+  function backspace() {
+    if (errored) { clearAll(); render(); return; }
+    if (overwrite) return;
+    current = current.length > 1 ? current.slice(0, -1) : "0";
+    if (current === "-" || current === "0") { current = "0"; overwrite = true; }
+  }
+
+  // ── 타격감 피드백 (오디오 틱 + 진동 + 리플) ─────────────────────
+  let audioCtx = null;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function tick(freq) {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      const t = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(freq, t);
+      // 짧고 낮은 볼륨의 blip — 은은한 타격감
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.exponentialRampToValueAtTime(0.05, t + 0.005);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.045);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + 0.05);
+    } catch (_) { /* 오디오 미지원 환경은 조용히 무시 */ }
+  }
+
+  function spawnRipple(btn, x, y) {
+    if (reduce) return;
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 1.6;
+    const r = document.createElement("span");
+    r.className = "ripple";
+    r.style.width = r.style.height = size + "px";
+    r.style.left = (x - rect.left) + "px";
+    r.style.top = (y - rect.top) + "px";
+    btn.appendChild(r);
+    r.addEventListener("animationend", () => r.remove());
+  }
+
+  // 키 종류별 미세한 음정 차 — "은은한" 위계
+  function freqFor(btn) {
+    if (btn.dataset.action === "equals") return 660;
+    if (btn.dataset.op) return 550;
+    if (btn.classList.contains("fn")) return 494;
+    return 440; // 숫자
+  }
+
+  function feedback(btn, x, y) {
+    tick(freqFor(btn));
+    if (navigator.vibrate) navigator.vibrate(8);
+    if (x != null && y != null) spawnRipple(btn, x, y);
+    else {
+      const rect = btn.getBoundingClientRect();
+      spawnRipple(btn, rect.left + rect.width / 2, rect.top + rect.height / 2);
+    }
+    if (!reduce) {
+      btn.classList.add("is-hit");
+      setTimeout(() => btn.classList.remove("is-hit"), 90);
+    }
+  }
+
+  // ── 액션 디스패치 ─────────────────────────────────────────────
+  function activate(btn) {
+    if (btn.dataset.digit !== undefined) inputDigit(btn.dataset.digit);
+    else if (btn.dataset.op !== undefined) { chooseOperator(btn.dataset.op, btn); render(); return; }
+    else switch (btn.dataset.action) {
+      case "decimal": inputDecimal(); break;
+      case "equals":  compute(); break;
+      case "clear":   clearAll(); break;
+      case "sign":    toggleSign(); break;
+      case "percent": percent(); break;
+    }
+    render();
+  }
+
+  // 포인터: 리플 좌표를 위해 pointerdown 사용
+  pad.addEventListener("pointerdown", (e) => {
+    const btn = e.target.closest(".key");
+    if (!btn) return;
+    feedback(btn, e.clientX, e.clientY);
+    activate(btn);
+  });
+
+  // ── 키보드 지원 ───────────────────────────────────────────────
+  const KEYMAP = {
+    "/": "÷", "*": "×", "-": "−", "+": "+",
+  };
+  window.addEventListener("keydown", (e) => {
+    let selector = null;
+    if (e.key >= "0" && e.key <= "9") selector = `[data-digit="${e.key}"]`;
+    else if (e.key === ".") selector = `[data-action="decimal"]`;
+    else if (e.key === "Enter" || e.key === "=") { e.preventDefault(); selector = `[data-action="equals"]`; }
+    else if (e.key === "Escape") selector = `[data-action="clear"]`;
+    else if (e.key === "%") selector = `[data-action="percent"]`;
+    else if (KEYMAP[e.key]) selector = `[data-op="${KEYMAP[e.key]}"]`;
+    else if (e.key === "Backspace") { backspace(); render(); return; }
+    else return;
+
+    const btn = pad.querySelector(selector);
+    if (!btn) return;
+    e.preventDefault();
+    feedback(btn);      // 키보드 입력도 동일 타격감
+    activate(btn);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
