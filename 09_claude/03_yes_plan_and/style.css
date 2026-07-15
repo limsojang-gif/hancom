@@ -1,0 +1,164 @@
+:root {
+  --bg-grad-1: #1a0033;
+  --bg-grad-2: #000428;
+  --panel: rgba(20, 10, 40, 0.75);
+  --display-bg: rgba(0, 0, 0, 0.35);
+  --text: #f0f0ff;
+  --text-dim: #9a8fb8;
+  --num-btn: rgba(255, 255, 255, 0.08);
+  --num-btn-hover: rgba(255, 255, 255, 0.16);
+  --accent: #ff2e63;
+  --neon-pink: #ff2e97;
+  --neon-cyan: #00f0ff;
+  --neon-green: #39ff14;
+}
+
+body.light {
+  --bg-grad-1: #ffd6f0;
+  --bg-grad-2: #c2e9ff;
+  --panel: rgba(255, 255, 255, 0.8);
+  --display-bg: rgba(255, 255, 255, 0.55);
+  --text: #1a1030;
+  --text-dim: #6b5a8a;
+  --num-btn: rgba(0, 0, 0, 0.05);
+  --num-btn-hover: rgba(0, 0, 0, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--bg-grad-1), var(--bg-grad-2));
+  transition: background 0.4s ease;
+  padding: 16px;
+}
+
+.calculator {
+  width: 100%;
+  max-width: 360px;
+  background: var(--panel);
+  border-radius: 24px;
+  padding: 22px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 40px rgba(255, 46, 151, 0.3),
+    0 0 80px rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.title {
+  font-weight: 700;
+  letter-spacing: 3px;
+  font-size: 14px;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.theme-toggle:hover {
+  transform: rotate(-20deg) scale(1.15);
+}
+
+.display {
+  background: var(--display-bg);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  text-align: right;
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.history {
+  color: var(--text-dim);
+  font-size: 16px;
+  min-height: 22px;
+  word-break: break-all;
+}
+
+.current {
+  color: var(--text);
+  font-size: 40px;
+  font-weight: 600;
+  word-break: break-all;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.btn {
+  border: none;
+  border-radius: 16px;
+  padding: 18px 0;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text);
+  background: var(--num-btn);
+  transition: transform 0.08s ease, background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--num-btn-hover);
+}
+.btn:active {
+  transform: scale(0.93);
+}
+
+.func {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 6px var(--neon-cyan);
+}
+
+.op {
+  color: #fff;
+  background: linear-gradient(135deg, var(--neon-pink), #b5179e);
+  box-shadow: 0 0 14px rgba(255, 46, 151, 0.55);
+}
+.op:hover {
+  box-shadow: 0 0 22px rgba(255, 46, 151, 0.9);
+}
+.op.selected {
+  outline: 2px solid #fff;
+}
+
+.equals {
+  color: #06121a;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-green));
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.6);
+}
+.equals:hover {
+  box-shadow: 0 0 26px rgba(0, 240, 255, 0.95);
+}
+
+.zero {
+  grid-column: span 2;
+}
